@@ -1,38 +1,207 @@
+a {
+	text-decoration: none;
+	color: inherit;
+}
 .App {
-  text-align: center;
+    position: relative;
+    width: 1024px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.mainContent {
+    position: relative;
+}
+.mCHeader {
+    position: relative;
+    margin-bottom: 2vh;
+    display: flex;
+    flex-direction: row;
+}
+.mCHTitle {
+    position: relative;
+    flex: 4;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 2em;
+}
+.mCHSocials {
+    position: relative;
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+.mCHSocial {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.mCHSocial:hover .svg-inline--fa {
+	color: rgb(113, 127, 167);
+	cursor: pointer;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.mCUserInput {
+    position: relative;
+    padding: 2vh;
+    border-radius: 0.5vh;
+    background-color: #eee;
+    margin-bottom: 2vh;
+	display: flex;
+    flex-direction: row;	
+}
+input#txtHash {
+    height: 3vh;
+    font-size: 1em;
+    padding: 1vh 1vw;
+    border: 1px solid #bbb;
+	width: 30vw;
+}
+button#btnSend {
+    margin-left: 1vw;
+    height: 5vh;
+    font-size: 1em;
+    cursor: pointer;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.mcTitle {
+    padding: 0.5vh 2vh;
+    color: #aaa;
 }
 
-.App-link {
-  color: #61dafb;
+.mCWealthChanges {
+    position: relative;
+    padding: 2vh;
+    border-radius: 0.5vh;
+    background-color: #fafafa;
+    margin-bottom: 2vh;
+    border: 1px solid #ddd;
 }
+	.wealthLine {
+		position: relative;
+		width: 100%;
+		height: 4vh;
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-start;
+	}
+		.wlElement {
+			position: relative;
+			float: left;
+			border: 1px solid #ccc;
+			margin: 0.02vw;
+			border-radius: 3px;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			padding: 0 0.3vw;
+			overflow: hidden;
+			font-size: 0.85em;
+		}	
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.mCTransactionDetail {
+    position: relative;
+    padding: 2vh;
+    border-radius: 0.5vh;
+    background-color: #fafafa;
+    margin-bottom: 2vh;
+    border: 1px solid #ddd;
 }
+	.traceLine {
+		position: relative;
+		display: flex;
+		flex-direction: row;
+		height: 4vh;
+		width: 100%;
+		font-size: 12px;
+	}
+		.traceLine.traceLineLvl1 {    margin-left: 1.5vw;}
+		.traceLine.traceLineLvl2 {    margin-left: 3vw;}
+		.traceLine.traceLineLvl3 {    margin-left: 4.5vw;}
+		.traceLine.traceLineLvl4 {    margin-left: 6vw;}
+		.traceLine.traceLineLvl5 {    margin-left: 7.5vw;}
+		.traceLine.traceLineLvl6 {    margin-left: 9vw;}
+		.traceLine.traceLineLvl7 {    margin-left: 10.5vw;}
+		.traceLine.traceLineLvl8 {    margin-left: 12vw;}
+
+		.tLCallElement {
+			position: relative;
+			float: left;
+			border: 1px solid #ccc;
+			margin: 0.01vw;
+			border-radius: 3px;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			padding: 0 0.3vw;
+			overflow: hidden;
+		}
+			.tLCallElement.tLCallType {
+				background-color: aliceblue;
+				color: blue;
+			}		
+				.tLCallElement.tLCallType.staticcall {color: #7c7cff;}	
+				.tLCallElement.tLCallType.delegatecall {color: #c1c1f1;}		
+			.tLCallElement.tLContractName {
+				background-color: #f6eefa;
+				color: #7f29b7;
+			}			
+				.tLCallElement.tLContractName.knownContractName {font-weight: bold;}			
+			.tLCallElement.tLMethodCalled {
+				background-color: #f0fff4;
+				color: #197219;
+			}
+			.tLCallElement.tLInputParameters {
+				display: flex;
+				flex-direction: row;
+				flex-wrap: wrap;
+			}		
+				.tLInputParam {
+					max-width: 6vw;
+					overflow: hidden;
+					height: 4vh;
+					display: flex;
+					flex-direction: column;
+					font-size: 9px;
+					background-color: #efefe7;
+					margin: 0 0.1vw;
+					line-height: 12px;
+				}	
+			.tLCallElement.tLEthValue {
+				background-color: #fff7f0;
+				color: #dfafaf;
+			}					
+				.tLCallElement.tLEthValue.tLEthValueWithValue {
+					font-weight: bold;
+					color: rgb(255, 66, 208);
+				}		
+
+				.tLOutputParam {
+					max-width: 6vw;
+					overflow: hidden;
+					height: 4vh;
+					display: flex;
+					flex-direction: column;
+					font-size: 9px;
+					background-color: #dfedde;
+					margin: 0 0.1vw;					
+				}				
+
+.mCText {
+    position: relative;
+    padding: 2vh;
+    border-radius: 0.5vh;
+    background-color: #dee9f1a6;
+    margin-bottom: 2vh;
+}
+	.mCTTitle {
+		color: #4b6db7;
+		font-weight: bold;
+	}
+	.mCTBody a {
+		color: #7b9bdf;
+		font-weight: bold;
+	}
