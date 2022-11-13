@@ -1,7 +1,8 @@
 import { ethers } from "ethers";
-import { JsxElement } from "typescript";
+import { validateHeaderName } from "http";
+import { collapseTextChangeRangesAcrossMultipleVersions, JsxElement } from "typescript";
 
-import {TraceItem, CallInput, OutputParam, TLProps, TraceType, TDProps } from '../types';
+import {TraceItem, CallInput, OutputParam, TLProps, TraceType, TDProps, TBigNumber } from '../types';
 
 //-------------------------------------------------------------------
 function renderInputs(item: TraceItem)
@@ -9,12 +10,20 @@ function renderInputs(item: TraceItem)
 	if(item.info.inputs)
 	{
 		return item.info.inputs.map((arg: CallInput, i: number) => {
-			var val = arg.value;
-			if((arg.type === 'uint256' || arg.type === 'uint112') && arg.value !== undefined)
+			var val: any = arg.value;
+			if(arg.value !== undefined && isBigNumber(arg.value))
 			{
 				const bn = ethers.BigNumber.from(arg.value);
 				val = bn.toString();
 			}
+			/*else if(arg.value !== undefined && isNegativeBigNumber(arg.value))
+			{
+				let _val: TBigNumber = val;
+				_val.hex = _val.hex.substring(1);
+				const bn = ethers.BigNumber.from(_val);
+				val = bn.toString();
+				val = "-"+val;
+			}*/			
 			else if(arg.type.includes("[]") || arg.type === 'tuple' || typeof arg.value === 'object')
 			{
 				val = JSON.stringify(arg.value);
@@ -26,7 +35,7 @@ function renderInputs(item: TraceItem)
 			else if(arg.value === false)
 			{
 				val = "FALSE";
-			}			
+			}
 
 			return (
 				<div className="tLInputParam" key={i}>
@@ -41,18 +50,45 @@ function renderInputs(item: TraceItem)
 		return null;
 }
 
+function isBigNumber(val: any)
+{
+	if(val.hasOwnProperty('type') && val.hasOwnProperty('hex') && val.type === 'BigNumber')
+			return true;
+
+	return false;
+}
+
+function isNegativeBigNumber(val: any)
+{
+	if(val.hasOwnProperty('type') && val.hasOwnProperty('hex') && val.type === 'BigNumber')
+	{
+		if(val.hex.indexOf("-") === 0)
+			return true;
+	}
+
+	return false;
+}
+
 //-------------------------------------------------------------------
 function renderOutputs(item: TraceItem)
 {
 	if(item.info.outputs)
 	{
 		return item.info.outputs.map((arg: OutputParam, i: number) => {
-			var val = arg.value;
-			if((arg.type === 'uint256' || arg.type === 'uint112') && arg.value !== undefined)
+			var val: any = arg.value;
+			if(arg.value !== undefined && isBigNumber(arg.value))
 			{
 				const bn = ethers.BigNumber.from(arg.value);
 				val = bn.toString();
 			}
+			/*else if(arg.value !== undefined && isNegativeBigNumber(arg.value))
+			{
+				let _val: TBigNumber = val;
+				_val.hex = _val.hex.substring(1);
+				const bn = ethers.BigNumber.from(_val);
+				val = bn.toString();
+				val = "-"+val;
+			}*/
 			else if(arg.type.includes("[]"))
 			{
 				val = JSON.stringify(arg.value);
@@ -123,6 +159,10 @@ function TraceLine(props: TLProps)
 		contractName = item.info.contractName.slice(0, 6) + "..." + item.info.contractName.slice(-3);
 	else
 		classtLContractName += " knownContractName";
+
+	const ri = renderInputs(item);
+	const ro = renderOutputs(item);
+	const rc = renderChildrens(item, level);
 	
 	return (
 		<>
@@ -130,12 +170,12 @@ function TraceLine(props: TLProps)
 				<div className={classtLCallType}>{item.info.callType}</div>
 				<div className={classtLContractName}>{contractName}</div>
 				<div className="tLCallElement tLMethodCalled">{item.info.name}</div>
-				<div className="tLCallElement tLInputParameters">{renderInputs(item)}</div>
+				<div className="tLCallElement tLInputParameters">{ri}</div>
 				<div className={classtLEthValue}>{ethValue}</div>
 				<div className="tLCallElement tLCallIcon">{"->"}</div>
-				<div className="tLCallElement tLOutputResult">{renderOutputs(item)}</div>
+				<div className="tLCallElement tLOutputResult">{ro}</div>
 			</div>
-			{renderChildrens(item, level)}
+			{rc}
 		</>
 	);
 }

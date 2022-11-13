@@ -44,10 +44,15 @@ export type CallInput = {
 	value: string | number | boolean
 };
 
+export type TBigNumber = {
+	type: string,
+	hex: string
+};
+
 export type OutputParam = {
 	type: string,
 	name: string,
-	value: string | number | boolean
+	value: string | number | boolean | TBigNumber
 };
 
 export interface TLProps {

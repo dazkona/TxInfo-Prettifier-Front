@@ -179,6 +179,11 @@ button#btnSend {
 					color: rgb(255, 66, 208);
 				}		
 
+			.tLCallElement.tLOutputResult {
+				display: flex;
+				flex-direction: row;
+				flex-wrap: wrap;
+			}		
 				.tLOutputParam {
 					max-width: 6vw;
 					overflow: hidden;
